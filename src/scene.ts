@@ -1,5 +1,4 @@
 import {
-  ArcRotateCamera,
   Color3,
   Color4,
   Engine,
@@ -14,7 +13,6 @@ import {
   PointerEventTypes,
   FreeCamera,
   KeyboardEventTypes,
-  Matrix,
 } from '@babylonjs/core';
 
 const MOVE_SPEED = 7.5;
@@ -30,6 +28,7 @@ export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasEle
   scene.collisionsEnabled = true;
 
   const camera = new FreeCamera('playerCamera', new Vector3(0, 1.75, -6), scene);
+  scene.activeCamera = camera;
   camera.minZ = 0.05;
   camera.speed = MOVE_SPEED;
   camera.angularSensibility = 6000;
@@ -37,10 +36,19 @@ export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasEle
   camera.checkCollisions = true;
   camera.ellipsoid = new Vector3(0.35, 0.9, 0.35);
   camera.attachControl(canvas, true);
+  camera.setTarget(new Vector3(0, 1.75, 0));
 
   const light = new HemisphericLight('sun', new Vector3(0.1, 1, 0.3), scene);
   light.intensity = 1.15;
   light.groundColor = new Color3(0.18, 0.22, 0.3);
+
+  const beacon = MeshBuilder.CreateSphere('beacon', { diameter: 1.2, segments: 24 }, scene);
+  beacon.position = new Vector3(0, 1.85, 4);
+  const beaconMaterial = new StandardMaterial('beaconMaterial', scene);
+  beaconMaterial.diffuseColor = new Color3(0.14, 0.18, 0.22);
+  beaconMaterial.emissiveColor = new Color3(0.9, 0.65, 0.2);
+  beaconMaterial.specularColor = Color3.Black();
+  beacon.material = beaconMaterial;
 
   const ground = MeshBuilder.CreateGround('ground', {
     width: 220,
@@ -214,7 +222,9 @@ export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasEle
       grounded = true;
     }
 
-    camera.rotation = new Vector3(pitch, yaw, 0);
+    camera.rotation.x = pitch;
+    camera.rotation.y = yaw;
+    camera.rotation.z = 0;
 
     bobTime += dt * (wishDir.lengthSquared() > 0 ? (movement.sprint ? 13 : 9) : 2.5);
     const bob = Math.sin(bobTime) * (wishDir.lengthSquared() > 0 ? 0.03 : 0.01);

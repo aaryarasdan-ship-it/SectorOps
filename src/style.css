@@ -34,6 +34,30 @@ body {
   outline: none;
 }
 
+.boot-status {
+  position: fixed;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  z-index: 10;
+  max-width: min(720px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(7, 11, 16, 0.72);
+  backdrop-filter: blur(14px);
+  color: #f1f6fb;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+}
+
+.boot-status--error {
+  border-color: rgba(255, 108, 108, 0.45);
+  color: #ffd8d8;
+  background: rgba(54, 12, 16, 0.86);
+}
+
 .hud {
   position: fixed;
   inset: 0;
