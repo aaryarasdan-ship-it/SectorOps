@@ -23,7 +23,7 @@ const LOOK_SENSITIVITY = 0.0022;
 
 export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
   const scene = new Scene(engine);
-  scene.clearColor = new Color4(0.04, 0.06, 0.09, 1);
+  scene.clearColor = new Color4(0.07, 0.12, 0.18, 1);
   scene.gravity = new Vector3(0, GRAVITY, 0);
   scene.collisionsEnabled = true;
 
@@ -39,16 +39,25 @@ export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasEle
   camera.setTarget(new Vector3(0, 1.75, 0));
 
   const light = new HemisphericLight('sun', new Vector3(0.1, 1, 0.3), scene);
-  light.intensity = 1.15;
-  light.groundColor = new Color3(0.18, 0.22, 0.3);
+  light.intensity = 1.5;
+  light.groundColor = new Color3(0.28, 0.3, 0.36);
 
   const beacon = MeshBuilder.CreateSphere('beacon', { diameter: 1.2, segments: 24 }, scene);
   beacon.position = new Vector3(0, 1.85, 4);
   const beaconMaterial = new StandardMaterial('beaconMaterial', scene);
-  beaconMaterial.diffuseColor = new Color3(0.14, 0.18, 0.22);
-  beaconMaterial.emissiveColor = new Color3(0.9, 0.65, 0.2);
+  beaconMaterial.diffuseColor = new Color3(0.18, 0.22, 0.28);
+  beaconMaterial.emissiveColor = new Color3(1, 0.78, 0.28);
   beaconMaterial.specularColor = Color3.Black();
   beacon.material = beaconMaterial;
+
+  const backdrop = MeshBuilder.CreateBox('backdrop', { size: 420 }, scene);
+  backdrop.position = new Vector3(0, 110, 0);
+  const backdropMaterial = new StandardMaterial('backdropMaterial', scene);
+  backdropMaterial.backFaceCulling = false;
+  backdropMaterial.diffuseColor = new Color3(0.1, 0.16, 0.24);
+  backdropMaterial.emissiveColor = new Color3(0.1, 0.16, 0.24);
+  backdropMaterial.specularColor = Color3.Black();
+  backdrop.material = backdropMaterial;
 
   const ground = MeshBuilder.CreateGround('ground', {
     width: 220,
@@ -58,7 +67,7 @@ export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasEle
   ground.receiveShadows = true;
   ground.checkCollisions = true;
   const groundMaterial = new StandardMaterial('groundMaterial', scene);
-  groundMaterial.diffuseColor = new Color3(0.16, 0.2, 0.16);
+  groundMaterial.diffuseColor = new Color3(0.2, 0.24, 0.19);
   groundMaterial.specularColor = Color3.Black();
   ground.material = groundMaterial;
 
@@ -91,8 +100,8 @@ export function createCombatPrototypeScene(engine: Engine, canvas: HTMLCanvasEle
   weapon.parent = camera;
   weapon.position = new Vector3(0.28, -0.28, 0.55);
   const weaponMaterial = new StandardMaterial('weaponMaterial', scene);
-  weaponMaterial.diffuseColor = new Color3(0.08, 0.09, 0.11);
-  weaponMaterial.specularColor = new Color3(0.2, 0.24, 0.28);
+  weaponMaterial.diffuseColor = new Color3(0.13, 0.14, 0.17);
+  weaponMaterial.specularColor = new Color3(0.35, 0.38, 0.42);
   weapon.material = weaponMaterial;
 
   const muzzle = MeshBuilder.CreateSphere('muzzle', { diameter: 0.045, segments: 8 }, scene);

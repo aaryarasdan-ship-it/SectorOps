@@ -23,6 +23,11 @@ const reportError = (message: string) => {
   status.textContent = message;
 };
 
+if (!Engine.IsSupported()) {
+  reportError('WebGL is not supported in this browser or is disabled.');
+  throw new Error('WebGL is not supported.');
+}
+
 window.addEventListener('error', (event) => {
   reportError(event.error?.message ?? event.message ?? 'Unknown runtime error');
 });
@@ -45,7 +50,14 @@ try {
   status.textContent = 'Loaded. Click the game to focus.';
 
   engine.runRenderLoop(() => {
-    scene.render();
+    try {
+      scene.render();
+    } catch (renderError) {
+      const message = renderError instanceof Error ? renderError.message : String(renderError);
+      reportError(`Render failed: ${message}`);
+      engine.stopRenderLoop();
+      throw renderError;
+    }
   });
 
   window.addEventListener('resize', () => {
