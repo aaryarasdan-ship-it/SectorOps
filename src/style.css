@@ -1,0 +1,95 @@
+:root {
+  color-scheme: dark;
+  background: #081018;
+  color: #eef3f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top, rgba(54, 91, 117, 0.35), transparent 32%),
+    linear-gradient(180deg, #09111a 0%, #05080d 100%);
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+#game-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+}
+
+.hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 24px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hud__top,
+.hud__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hud__panel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 11, 16, 0.5);
+  backdrop-filter: blur(14px);
+  border-radius: 999px;
+}
+
+.crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+}
+
+.crosshair::before,
+.crosshair::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgba(232, 242, 255, 0.8);
+  box-shadow: 0 0 10px rgba(130, 180, 255, 0.35);
+  transform: translate(-50%, -50%);
+}
+
+.crosshair::before {
+  width: 2px;
+  height: 18px;
+}
+
+.crosshair::after {
+  width: 18px;
+  height: 2px;
+}

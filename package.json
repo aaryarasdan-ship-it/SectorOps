@@ -1,0 +1,20 @@
+{
+  "name": "sectorops",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@babylonjs/core": "^8.41.0",
+    "@babylonjs/loaders": "^8.41.0",
+    "@babylonjs/materials": "^8.41.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.2.0"
+  }
+}
