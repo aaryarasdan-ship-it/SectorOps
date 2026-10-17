@@ -23,6 +23,11 @@ const reportError = (message: string) => {
   status.textContent = message;
 };
 
+const updateStatus = (message: string) => {
+  status.classList.remove('boot-status--error');
+  status.textContent = message;
+};
+
 if (!Engine.IsSupported()) {
   reportError('WebGL is not supported in this browser or is disabled.');
   throw new Error('WebGL is not supported.');
@@ -40,12 +45,14 @@ window.addEventListener('unhandledrejection', (event) => {
 let scene: Scene;
 
 try {
+  updateStatus('Creating renderer...');
   const engine = new Engine(canvas, true, {
     preserveDrawingBuffer: true,
     stencil: true,
     disableWebGL2Support: false,
   });
 
+  updateStatus('Creating scene...');
   scene = createCombatPrototypeScene(engine, canvas);
 
   let firstFrameRendered = false;
@@ -55,7 +62,7 @@ try {
     }
   }, 3000);
 
-  status.textContent = 'Starting renderer...';
+  updateStatus('Starting renderer...');
 
   engine.runRenderLoop(() => {
     try {
@@ -63,7 +70,7 @@ try {
       if (!firstFrameRendered) {
         firstFrameRendered = true;
         window.clearTimeout(firstFrameTimeout);
-        status.remove();
+        updateStatus('Loaded. Click the game to focus.');
       }
     } catch (renderError) {
       const message = renderError instanceof Error ? renderError.message : String(renderError);
@@ -72,6 +79,12 @@ try {
       throw renderError;
     }
   });
+
+  window.setTimeout(() => {
+    if (!firstFrameRendered) {
+      reportError('Render loop has not produced a visible frame yet. Check the browser console for cached bundle or WebGL errors.');
+    }
+  }, 1000);
 
   window.addEventListener('resize', () => {
     engine.resize();
