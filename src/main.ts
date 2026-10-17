@@ -47,7 +47,21 @@ try {
   });
 
   scene = createCombatPrototypeScene(engine, canvas);
-  status.textContent = 'Loaded. Click the game to focus.';
+
+  let firstFrameRendered = false;
+  const firstFrameTimeout = window.setTimeout(() => {
+    if (!firstFrameRendered) {
+      reportError('Renderer started but no visible frame appeared. Check browser WebGL and console errors.');
+    }
+  }, 3000);
+
+  scene.onAfterRenderObservable.addOnce(() => {
+    firstFrameRendered = true;
+    window.clearTimeout(firstFrameTimeout);
+    status.remove();
+  });
+
+  status.textContent = 'Starting renderer...';
 
   engine.runRenderLoop(() => {
     try {
