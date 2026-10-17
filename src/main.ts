@@ -55,17 +55,16 @@ try {
     }
   }, 3000);
 
-  scene.onAfterRenderObservable.addOnce(() => {
-    firstFrameRendered = true;
-    window.clearTimeout(firstFrameTimeout);
-    status.remove();
-  });
-
   status.textContent = 'Starting renderer...';
 
   engine.runRenderLoop(() => {
     try {
       scene.render();
+      if (!firstFrameRendered) {
+        firstFrameRendered = true;
+        window.clearTimeout(firstFrameTimeout);
+        status.remove();
+      }
     } catch (renderError) {
       const message = renderError instanceof Error ? renderError.message : String(renderError);
       reportError(`Render failed: ${message}`);
