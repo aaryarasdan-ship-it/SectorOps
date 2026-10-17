@@ -1,0 +1,1 @@
+{"version":"7.0.2","root":["./src/babylon.d.ts","./src/main.ts","./src/scene.ts"],"packageJsons":["./package.json"],"semanticErrors":true}
